@@ -1,9 +1,9 @@
-# EAI
+# EAI:
 Enterprice Application Intergration
 
-Eclipse project:
+# Eclipse project:
 Select every top directory as sources root
 
 
-Maven update
+# Maven update:
 Right click the pom.xml to update the dependencies
