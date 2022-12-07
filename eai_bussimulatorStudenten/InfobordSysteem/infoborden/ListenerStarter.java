@@ -5,15 +5,17 @@ import javax.jms.Destination;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public  class ListenerStarter implements Runnable, ExceptionListener {
-	private String selector="";
+	private static String selector="INFOBORD_QEUEU";
 	private Infobord infobord;
 	private Berichten berichten;
+	
 	
 	public ListenerStarter() {
 	}
@@ -29,18 +31,18 @@ public  class ListenerStarter implements Runnable, ExceptionListener {
             ActiveMQConnectionFactory connectionFactory = 
             		new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
 //			TODO maak de connection aan
-//          Connection connection = ?????;
-//          connection.start();
-//          connection.setExceptionListener(this);
+            Connection connection = connectionFactory.createConnection();
+            connection.start();
+            connection.setExceptionListener(this);
 //			TODO maak de session aan
-//          Session session = ?????;
-//			TODO maak de destination aan
-//          Destination destination = ?????;
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//			TODO maak de destination 
+            Destination destination = session.createQueue(selector);
 //			TODO maak de consumer aan
-//          MessageConsumer consumer = ?????;
-            System.out.println("Produce, wait, consume"+ selector);
+            MessageConsumer consumer = session.createConsumer(destination);
+            System.out.println("Produce, wait, consume " + selector);
 //			TODO maak de Listener aan
-//          consumer.?????;
+            consumer.setMessageListener(new QueueListener("consumer", infobord, berichten));
         } catch (Exception e) {
             System.out.println("Caught: " + e);
             e.printStackTrace();

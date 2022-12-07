@@ -14,7 +14,7 @@ public class Starter {
 		Application application = new Dashboard();
 		Platform.startup(() -> {
 				try {
-					application.start(new Stage()); 	
+					application.start(new Stage());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

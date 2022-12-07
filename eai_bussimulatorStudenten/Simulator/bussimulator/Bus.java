@@ -2,9 +2,14 @@ package bussimulator;
 
 import com.thoughtworks.xstream.XStream;
 import bussimulator.Halte.Positie;
+import com.thoughtworks.xstream.converters.reflection.ReflectionProvider;
+
+import javax.jms.TextMessage;
+import java.io.File;
 
 public class Bus{
 
+	//private static final String  = null;
 	private Bedrijven bedrijf;
 	private Lijnen lijn;
 	private int halteNummer;
@@ -105,11 +110,11 @@ public class Bus{
     	XStream xstream = new XStream();
     	//TODO zorg er voor dat de XML-tags niet het volledige pad van de 
     	//     omgezettte klassen bevat
-//    	xstream.alias(?????);
-//    	xstream.alias(?????);
+		xstream.alias("Bericht", bericht.getClass());
+		xstream.alias("ETA's", bussimulator.ETA.class);
     	//TODO maak de XML String aan en verstuur het bericht
-//    	String xml = ?????;
-//    	Producer producer = new Producer();
-//    	producer.?????;		
+    	String XML = xstream.toXML(bericht);
+    	Producer producer = new Producer();
+    	producer.sendBericht(XML);
 	}
 }
