@@ -111,9 +111,13 @@ public class Bus{
     	//TODO zorg er voor dat de XML-tags niet het volledige pad van de 
     	//     omgezettte klassen bevat
 		xstream.alias("Bericht", bericht.getClass());
-		xstream.alias("ETA's", bussimulator.ETA.class);
+		xstream.alias("ETA", bussimulator.ETA.class);
     	//TODO maak de XML String aan en verstuur het bericht
     	String XML = xstream.toXML(bericht);
+
+    	System.out.println("hierozoooooooooo ##################################");
+    	System.out.println(XML);
+    	
     	Producer producer = new Producer();
     	producer.sendBericht(XML);
 	}
