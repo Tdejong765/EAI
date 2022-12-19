@@ -113,11 +113,7 @@ public class Bus{
 		xstream.alias("Bericht", bericht.getClass());
 		xstream.alias("ETA", bussimulator.ETA.class);
     	//TODO maak de XML String aan en verstuur het bericht
-    	String XML = xstream.toXML(bericht);
-
-    	System.out.println("hierozoooooooooo ##################################");
-    	System.out.println(XML);
-    	
+    	String XML = xstream.toXML(bericht);    	
     	Producer producer = new Producer();
     	producer.sendBericht(XML);
 	}

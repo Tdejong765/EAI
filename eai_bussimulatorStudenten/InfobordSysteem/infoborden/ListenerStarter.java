@@ -4,9 +4,11 @@ import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.ExceptionListener;
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -34,17 +36,24 @@ public  class ListenerStarter implements Runnable, ExceptionListener {
             Connection connection = connectionFactory.createConnection();
             connection.start();
             connection.setExceptionListener(this);
+            
 //			TODO maak de session aan
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            
 //			TODO maak de destination 
-            Destination destination = session.createQueue(selector);
+            Destination destination = session.createTopic(selector);
+            
 //			TODO maak de consumer aan
-            MessageConsumer consumer = session.createConsumer(destination);
+            MessageConsumer consumer = session.createConsumer(destination,selector);
             System.out.println("Produce, wait, consume " + selector);
+            
 //			TODO maak de Listener aan
-            consumer.setMessageListener(new QueueListener("consumer", infobord, berichten));
+            QueueListener messageListener = new QueueListener("consumer", infobord, berichten);
+            consumer.setMessageListener(messageListener);
+            
+          
         } catch (Exception e) {
-            System.out.println("Caught: " + e);
+        	System.out.println("Caught: " + e);
             e.printStackTrace();
         }
     }
